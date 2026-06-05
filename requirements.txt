@@ -1,0 +1,24 @@
+# Web framework
+fastapi
+uvicorn[standard]
+
+# ORM / DB
+sqlmodel
+alembic
+
+# HTTP client (Spotify OAuth/API)
+httpx
+
+# Auth / sessions
+itsdangerous
+
+# QR codes
+qrcode[pil]
+
+# Config
+python-dotenv
+pydantic-settings
+
+# Testing
+pytest
+pytest-asyncio
