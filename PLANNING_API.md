@@ -420,14 +420,14 @@ VITE_API_URL=http://localhost:8000
 1. ✅ **Projekt-Setup** — FastAPI + SQLModel + Alembic + uvicorn, `main.py` + `database.py` + `.env`
 2. ✅ **Models + Migration** — alle SQLModel-Tabellen, Alembic-Migrationen
    (inkl. Pivot-Migration: Spotify-Felder raus, `youtube_video_id`/`preview_url` rein)
-3. **Auth Router** — `POST /auth/session` + `GET /auth/me` + `POST /auth/logout` + signierter Cookie
-4. **Party Router** — CRUD, Code-Generator (`XK4-92B` Format: `secrets.token_urlsafe(4).upper()[:7]` mit Bindestrich)
-5. **Songs Router** — add, list, status-update, delete
-6. **Votes Router** — vote/unvote mit Fingerprint-Unique-Check
-7. **Search Router** — Deezer-Suche (keyless) + `services/youtube.py` Resolver für den Approve-Hook
-8. **WebSocket** — Connection Manager + broadcast in alle Song/Vote-Endpoints einbauen
-9. **QR Endpoint** — `/party/{code}/qr` als PNG
-10. **Frontend-Integration** — `src/api/client.ts` + alle `src/api/*.ts` umstellen + WebSocket-Hook + **YouTubePlayer-Komponente**
+3. ✅ **Auth Router** — `POST /auth/session` + `GET /auth/me` + `POST /auth/logout` + signierter Cookie
+4. ✅ **Party Router** — CRUD, Code-Generator (`XK4-92B`-Format, kollisionssicher)
+5. ✅ **Songs Router** — add, list (approved/played), status-update mit Übergangs-Validierung, delete
+6. ✅ **Votes Router** — vote/unvote mit Fingerprint-Unique-Check
+7. ✅ **Search Router** — Deezer-Suche (keyless) + `services/youtube.py` Resolver für den Approve-Hook
+8. ✅ **WebSocket** — Connection Manager + broadcast in allen Song/Vote-Endpoints
+9. ✅ **QR Endpoint** — `/party/{code}/qr` als PNG
+10. ✅ **Frontend-Integration** — `src/api/client.ts` + alle `src/api/*.ts` umgestellt + WebSocket-Hook + **YouTubePlayer-Komponente** (in `crowdbeat-ui`)
 
 ---
 

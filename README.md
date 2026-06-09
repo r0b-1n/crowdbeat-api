@@ -6,8 +6,8 @@ dashboard via an embedded YouTube player. Built with **FastAPI** + **SQLModel**
 + **Alembic**. Song search is powered by the keyless Deezer API.
 
 See [`PLANNING_API.md`](./PLANNING_API.md) for the full design and the 10-step
-build roadmap. This repository currently implements **steps 1–2** (project
-setup + models + initial migration).
+build roadmap. All backend steps (1–9) are implemented; the frontend
+integration (step 10) lives in `crowdbeat-ui`.
 
 ## Tech stack
 
