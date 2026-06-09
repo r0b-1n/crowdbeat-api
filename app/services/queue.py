@@ -13,11 +13,11 @@ VALID_TRANSITIONS: dict[str, set[str]] = {
 }
 
 
-def approved_songs_sorted(session: Session, party_id: str) -> list[Song]:
+def songs_by_status(session: Session, party_id: str, status: str) -> list[Song]:
     return list(
         session.exec(
             select(Song)
-            .where(Song.party_id == party_id, Song.status == "approved")
+            .where(Song.party_id == party_id, Song.status == status)
             .order_by(Song.vote_count.desc(), Song.added_at.asc())
         )
     )

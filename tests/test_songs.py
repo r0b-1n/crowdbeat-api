@@ -62,6 +62,19 @@ def test_delete_song(host_client, party):
     assert host_client.patch(url, json={"status": "approved"}).status_code == 404
 
 
+def test_played_filter(host_client, party):
+    song = suggest(host_client, party["code"])
+    url = f"/party/{party['code']}/songs/{song['id']}"
+    host_client.patch(url, json={"status": "approved"})
+    host_client.patch(url, json={"status": "played"})
+
+    assert host_client.get(f"/party/{party['code']}/songs").json() == []
+    played = host_client.get(f"/party/{party['code']}/songs?status=played").json()
+    assert [s["id"] for s in played] == [song["id"]]
+    resp = host_client.get(f"/party/{party['code']}/songs?status=pending")
+    assert resp.status_code == 422  # pending only via the host-only endpoint
+
+
 def test_suggest_blocked_when_party_ended(host_client, party):
     host_client.delete(f"/party/{party['code']}")
     resp = host_client.post(f"/party/{party['code']}/songs", json=SONG)

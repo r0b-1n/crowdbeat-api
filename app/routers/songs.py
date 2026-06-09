@@ -1,6 +1,6 @@
 """Song suggestions, queue listing and host moderation."""
 
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlmodel import Session
 
 from app.database import get_session
@@ -21,10 +21,12 @@ def _get_song(session: Session, party: Party, song_id: str) -> Song:
 
 
 @router.get("", response_model=list[SongRead])
-async def list_approved(
-    party: Party = Depends(get_party), session: Session = Depends(get_session)
+async def list_songs(
+    status: str = Query(default="approved", pattern="^(approved|played)$"),
+    party: Party = Depends(get_party),
+    session: Session = Depends(get_session),
 ):
-    return queue.approved_songs_sorted(session, party.id)
+    return queue.songs_by_status(session, party.id, status)
 
 
 @router.get("/pending", response_model=list[SongRead])
