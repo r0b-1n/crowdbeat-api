@@ -20,10 +20,9 @@ class Settings(BaseSettings):
     FRONTEND_URL: str = "http://localhost:5173"
     DATABASE_URL: str = "sqlite:///./crowdbeat.db"
 
-    # Spotify OAuth
-    SPOTIFY_CLIENT_ID: str = ""
-    SPOTIFY_CLIENT_SECRET: str = ""
-    SPOTIFY_REDIRECT_URI: str = "http://localhost:8000/auth/callback"
+    # YouTube Data API v3 — optional; without it, songs are approved without an
+    # auto-resolved youtube_video_id and the frontend falls back to a search link.
+    YOUTUBE_API_KEY: str = ""
 
 
 settings = Settings()

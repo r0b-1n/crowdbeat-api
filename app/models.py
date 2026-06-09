@@ -12,11 +12,9 @@ from sqlmodel import Field, SQLModel
 
 
 class HostSession(SQLModel, table=True):
+    # Anonymous host identity, referenced by a signed session cookie. No OAuth.
     id: str = Field(default_factory=lambda: str(uuid4()), primary_key=True)
-    spotify_user_id: str
-    access_token: str
-    refresh_token: str
-    token_expires_at: datetime
+    display_name: str | None = None
     created_at: datetime = Field(default_factory=datetime.utcnow)
 
 
@@ -33,11 +31,13 @@ class Party(SQLModel, table=True):
 class Song(SQLModel, table=True):
     id: str = Field(default_factory=lambda: str(uuid4()), primary_key=True)
     party_id: str = Field(foreign_key="party.id")
-    spotify_track_id: str
+    track_id: str  # Deezer track id
     title: str
     artist: str
     album_art_url: str
     duration_ms: int
+    preview_url: str | None = None  # 30s mp3 preview from Deezer
+    youtube_video_id: str | None = None  # resolved on approve via YouTube Data API
     added_by_name: str
     status: str = Field(default="pending")  # pending | approved | rejected | played
     vote_count: int = Field(default=0)

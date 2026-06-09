@@ -1,7 +1,9 @@
 # crowdbeat-api
 
-REST API + WebSocket backend for **CrowdBeat** — a party song-voting app with
-Spotify integration. Built with **FastAPI** + **SQLModel** + **Alembic**.
+REST API + WebSocket backend for **CrowdBeat** — a party song-voting app where
+guests suggest and vote on songs and the voted queue auto-plays in the host
+dashboard via an embedded YouTube player. Built with **FastAPI** + **SQLModel**
++ **Alembic**. Song search is powered by the keyless Deezer API.
 
 See [`PLANNING_API.md`](./PLANNING_API.md) for the full design and the 10-step
 build roadmap. This repository currently implements **steps 1–2** (project
@@ -14,6 +16,9 @@ setup + models + initial migration).
 | Framework | FastAPI |
 | Database | SQLite via SQLModel (SQLAlchemy + Pydantic) |
 | Migrations | Alembic |
+| Song search | Deezer API (keyless, via httpx) |
+| Track→video resolution | YouTube Data API v3 (optional free API key) |
+| Playback | YouTube IFrame Player (frontend only) |
 | Config | pydantic-settings / python-dotenv |
 | Dev server | uvicorn |
 | Testing | pytest |
@@ -49,7 +54,7 @@ pip install -r requirements.txt
 
 # 3. Configure environment
 cp .env.example .env
-# edit .env — set SECRET_KEY and (later) Spotify credentials
+# edit .env — set SECRET_KEY; YOUTUBE_API_KEY is optional
 
 # 4. Create the database schema
 alembic upgrade head
@@ -79,6 +84,8 @@ See [`.env.example`](./.env.example). Key values:
 
 - `SECRET_KEY` — signs session cookies (change in production)
 - `DATABASE_URL` — defaults to `sqlite:///./crowdbeat.db`
-- `FRONTEND_URL` — allowed CORS origin / OAuth redirect target
-- `SPOTIFY_CLIENT_ID` / `SPOTIFY_CLIENT_SECRET` / `SPOTIFY_REDIRECT_URI` — needed
-  once the auth router (step 3) is in place
+- `FRONTEND_URL` — allowed CORS origin
+- `YOUTUBE_API_KEY` — optional; enables automatic track→YouTube-video resolution
+  when the host approves a song (see `PLANNING_API.md` for setup). Without it,
+  approved songs simply carry no `youtube_video_id` and the frontend falls back
+  to a YouTube search link.
