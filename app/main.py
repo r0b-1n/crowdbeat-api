@@ -8,6 +8,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.config import settings
+from app.routers import auth, party, search, songs, votes, ws
 
 app = FastAPI(title="CrowdBeat API")
 
@@ -29,10 +30,9 @@ def health() -> dict[str, str]:
     return {"status": "ok"}
 
 
-# Router registration (added in later steps):
-# app.include_router(auth.router)
-# app.include_router(party.router)
-# app.include_router(songs.router)
-# app.include_router(votes.router)
-# app.include_router(search.router)
-# app.include_router(ws.router)
+app.include_router(auth.router)
+app.include_router(party.router)
+app.include_router(songs.router)
+app.include_router(votes.router)
+app.include_router(search.router)
+app.include_router(ws.router)
